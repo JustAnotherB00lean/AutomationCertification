@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Newman Test') {
+            steps {
+                sh '''
+                 cd..
+                cd API/newManTests
+                newman run examencertificacion.postman_collection.json -e heroku.postman_environment.json
+                '''
+            }
+        }
+        stage('Test Assure Test') {
+            steps {
+                sh '''
+                    cd..
+                    cd API/restAssure
+                    mvn clean test
+                    '''
+            }
+        }
+        stage('Jmeter Test') {
+            steps {
+                sh '''
+                cd..
+                cd Load/Jmeter
+                jmeter -n -t main_test_plan.jmx
+                '''
+            }
+        }
+    }

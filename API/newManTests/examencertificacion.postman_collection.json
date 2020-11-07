@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "9ccf1332-1404-4526-90f3-97f7fde6bca8",
+		"name": "ExamenCertificación",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Status Validation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "832b451f-bdbc-4d89-9885-56c79ef522e0",
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status equals: 'Listos para el examen'\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.status).to.eql(\"Listos para el examen\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status"
+					]
+				},
+				"description": "Using the endpoint https://api-coffee-testing.herokuapp.com/v1/examen/status, verify the call"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Name Validation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "956ea481-fabc-4d83-9d8c-5b85808311a9",
+						"exec": [
+							"pm.test(\"Message equals: 'Name was not provided'\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.message).to.eql(\"Name was not provided\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/updateName",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"updateName"
+					]
+				},
+				"description": "Evaluate putName endpoint withouth body "
+			},
+			"response": []
+		},
+		{
+			"name": "Get Random Name Validation without AUTH",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "343bcd3e-4375-4d1f-b22c-ed95a6edb6fc",
+						"exec": [
+							"pm.test(\"Message equals: 'Please login first'\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.message).to.eql(\"Please login first\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/randomName",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"randomName"
+					]
+				},
+				"description": "Test get random name validation without Auth "
+			},
+			"response": []
+		},
+		{
+			"name": "Get random name with AUTH",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e450767b-73bf-4a5d-a493-2b332f6802a8",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "testpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/randomName",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"randomName"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Same Name Validation ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Edge\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/sameName",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"sameName"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
